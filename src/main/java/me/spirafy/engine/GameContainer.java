@@ -1,4 +1,5 @@
-import java.awt.event.KeyEvent;
+package me.spirafy.engine;
+
 import java.awt.event.MouseEvent;
 
 public class GameContainer implements Runnable{
@@ -7,6 +8,7 @@ public class GameContainer implements Runnable{
     private Window window;
     private Renderer renderer;
     private Input input;
+    private AbstractGame game;
 
     private boolean running = false;
 
@@ -18,8 +20,8 @@ public class GameContainer implements Runnable{
     private String title = "MyEngine v1.2";
 
 
-    public GameContainer(){
-
+    public GameContainer(AbstractGame game){
+        this.game = game;
     }
     public void start(){
         window = new Window(this);
@@ -60,13 +62,10 @@ public class GameContainer implements Runnable{
                 unprocessedTime -= UPDATE_CAP;
                 render = true;
 
+                game.update(this, (float) UPDATE_CAP);
+
                 input.update();
 
-                System.out.println("X: "+ input.getMouseX()+ " Y: " + input.getMouseY());
-
-                if(input.isbuttonDown(MouseEvent.BUTTON1)){
-                    System.out.println("A is pressed!");
-                }
                 if(frameTime >= 1.0){
                     frameTime = 0;
                     fps = frames;
@@ -82,6 +81,7 @@ public class GameContainer implements Runnable{
                 renderer.clear();
                 frames++;
                 window.update();
+                game.render(this, renderer);
                 //todo render game
             }else {
                 try {
@@ -95,10 +95,6 @@ public class GameContainer implements Runnable{
     }
     private void dispose(){
 
-    }
-    public static void main(String[] args){
-        GameContainer gc = new GameContainer();
-        gc.start();
     }
 
     public int getWidth() {
@@ -121,4 +117,7 @@ public class GameContainer implements Runnable{
         return window;
     }
 
+    public Input getInput() {
+        return input;
+    }
 }
