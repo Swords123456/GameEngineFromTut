@@ -70,7 +70,6 @@ public class GameContainer implements Runnable{
                     frameTime = 0;
                     fps = frames;
                     frames = 0;
-                    System.out.println("FPS: " + fps);
 
                 }
                 //todo update game!
@@ -79,9 +78,10 @@ public class GameContainer implements Runnable{
             }
             if(render){
                 renderer.clear();
-                frames++;
-                window.update();
                 game.render(this, renderer);
+                renderer.drawText("FPS: " + fps, 0, 0, 0xff00ffff);
+                window.update();
+                frames++;
                 //todo render game
             }else {
                 try {

@@ -14,20 +14,12 @@ public class Image {
     private int[] p;
 
     public Image(String path){
-
-        if(path != null) System.out.println("Pa isnt null");
         BufferedImage image = null;
 
         try {
             image = ImageIO.read(Image.class.getResourceAsStream(path));
         } catch (IOException e) {
-            System.out.println("Resources are unavailable");
             e.printStackTrace();
-        }
-
-        if(image != null){
-            System.out.println("Image isn't null");
-            return;
         }
 
         w = image.getWidth();
